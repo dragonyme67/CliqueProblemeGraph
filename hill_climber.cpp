@@ -162,43 +162,58 @@ void perturb_destruction(const Graph &g, std::vector<vertex> &clique, std::vecto
 std::vector<vertex> solve_hill_climber(const Graph &g, const HCConfig &config) {
     std::vector<vertex> best_clique;
     
+    std::vector<vertex> current_clique;
+    std::vector<vertex> candidats;
+
     for (int restart = 0; restart < config.maxRestarts; ++restart) {
-        std::vector<vertex> current_clique;
-        std::vector<vertex> candidats;
-        
-        // Initialisation aléatoire ou premier sommet
-        vertex start_v = rand() % g.nb_vertices();
-        current_clique.push_back(start_v);
-        g.get_neighbors(start_v, candidats);
+        // Initialisation : si c'est le premier tour ou si on ne veut pas de destruction (start from scratch)
+        if (restart == 0 || !config.useDestruction) {
+            current_clique.clear();
+            candidats.clear();
+            vertex start_v = rand() % g.nb_vertices();
+            current_clique.push_back(start_v);
+            g.get_neighbors(start_v, candidats);
+        }
         
         bool progressed = true;
+        int consecutive_swaps = 0;
+        int max_swaps = g.nb_vertices(); // Limite pour éviter les cycles infinis
+
         while (progressed) {
             progressed = false;
             
-            // 1. Tente N2-Add
+            // 1. Priorité absolue à la croissance (+2)
             if (move_n2_add(g, current_clique, candidats, config.useBestN2)) {
                 progressed = true;
+                consecutive_swaps = 0; // On a grandi, on remet le compteur à zéro
                 continue;
             }
             
-            // 2. Tente N1-Fallback
+            // 2. Repli croissance (+1)
             if (config.useN1Fallback && move_n1_add(g, current_clique, candidats)) {
                 progressed = true;
+                consecutive_swaps = 0;
                 continue;
             }
             
-            // 3. Tente N2-Swap (Si bloqué)
-            if (config.useSwap && move_n2_swap(g, current_clique, candidats)) {
-                progressed = true;
-                continue;
+            // 3. Swap (Exploration) - Uniquement si on ne peut plus grandir
+            if (config.useSwap && consecutive_swaps < max_swaps) {
+                if (move_n2_swap(g, current_clique, candidats)) {
+                    progressed = true;
+                    consecutive_swaps++;
+                    continue;
+                }
             }
         }
-        
+
         if (current_clique.size() > best_clique.size()) {
             best_clique = current_clique;
+            std::cout << "[Restart " << restart << "] Meilleure clique trouvée : " << best_clique.size() << std::endl;
         }
-        
-        // Optionnel : Destruction et boucle ou restart complet
+
+        if (config.useDestruction && restart < config.maxRestarts - 1) {
+            perturb_destruction(g, current_clique, candidats, config.destructRate);
+        }
     }
     
     return best_clique;

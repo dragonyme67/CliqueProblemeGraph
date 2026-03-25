@@ -1,31 +1,33 @@
-# Implémentation du Hill Climber pour le Maximum Clique Problem (Question 1)
+# Implémentation du Hill Climber N2 (Détails Techniques)
 
-Ce document décrit les algorithmes de recherche locale (Voisinage N1) déjà implémentés pour trouver une clique maximale.
+Ce document explique les choix d'implémentation effectués pour l'algorithme Hill Climber avec voisinage N2.
 
-## Voisinage N1 (Ajout d'un sommet)
-Le voisinage N1 consiste à tenter d'agrandir la clique actuelle en y ajoutant un sommet choisi parmi les candidats (sommets connectés à tous les membres de la clique actuelle).
+## 1. Principes de base et Optimisation
+Conformément aux consignes, l'implémentation repose sur la gestion d'un ensemble de **candidats** (sommets connectés à l'intégralité de la clique actuelle).
 
-### 1. Best Improvement (Max Degré Résiduel)
-*   **Logique** : Parmi tous les sommets candidats, on choisit celui qui possède le plus grand nombre de voisins au sein même de l'ensemble des candidats.
-*   **Objectif** : Maximiser le nombre de candidats restants pour les étapes suivantes afin de construire une clique la plus grande possible.
-*   **Code** : Implémenté via `MaxResidualDegreeStrategy` dans `select.cpp` et la fonction `residual_degree` dans `utils.cpp`.
+*   **Utilisation des Intersections** : Au lieu d'utiliser `is_clique()` (coûteux en $O(k^2)$), nous maintenons le vecteur de candidats via la fonction `g.intersect_neighbors()`. À chaque ajout de sommet, la liste des candidats est réduite à l'intersection des voisins du nouveau sommet.
+*   **Focus sur le Graphe Résiduel** : Toutes les fonctions de sélection (N1, N2) travaillent sur le **graphe induit par les candidats** (graphe résiduel) et non sur les degrés globaux du graphe de départ. Cela permet de prendre des décisions basées sur le potentiel réel d'agrandissement de la clique.
 
-### 2. Max Degree
-*   **Logique** : On choisit le sommet candidat qui a le plus grand degré dans le graphe global.
-*   **Objectif** : Utiliser une heuristique simple basée sur la connectivité globale du sommet.
-*   **Code** : Fonction `descente_discret_best_improvement` dans `main.cpp`.
+## 2. Voisinage N2 (2 actions)
 
-### 3. Random (Aléatoire)
-*   **Logique** : On choisit un sommet au hasard parmi tous les sommets candidats compatibles.
-*   **Objectif** : Explorer différentes zones de l'espace de recherche (utile pour des approches multi-start).
-*   **Code** : Fonction `descente_discret_aleatoire` dans `main.cpp`.
+### A. Croissance (Add + Add)
+Cette fonction cherche une paire de sommets `(u, v)` dans l'ensemble des candidats qui sont connectés entre eux.
+*   **Best Improvement** : Calcule le score de chaque paire comme la somme de leurs **degrés résiduels** (nombre de voisins au sein du même ensemble de candidats). On choisit la paire maximisant ce score.
+*   **First Improvement** : Retourne la première paire connectée trouvée pour accélérer le processus sur les graphes denses.
 
-### 4. First Improve (Premier croissant)
-*   **Logique** : On parcourt les sommets dans l'ordre croissant de leurs indices et on ajoute le premier qui peut l'être (tout en restant une clique).
-*   **Objectif** : Rapidité d'exécution sans calcul heuristique coûteux.
-*   **Code** : Fonction `descente_discret_croissant` dans `main.cpp`.
+### B. Swap (Remove + Add)
+Si aucun ajout n'est possible, on tente d'échanger un sommet `w` de la clique par un sommet `u` extérieur.
+*   **Logique** : Le sommet `u` doit être connecté à `Clique \ {w}`.
+*   **Critère** : On effectue le swap uniquement si le degré résiduel de `u` (potentiel futur) est strictement supérieur à celui de `w`. Cela permet de "débloquer" une situation figée.
 
-### 5. Last Improve (Dernier décroissant)
-*   **Logique** : On parcourt les sommets dans l'ordre décroissant de leurs indices et on ajoute le premier candidat trouvé.
-*   **Objectif** : Similaire au First Improve, mais explore une autre partie de la liste.
-*   **Code** : Fonction `descente_discret_decroissant` dans `main.cpp`.
+## 3. Stratégies Méta-heuristiques
+
+### Iterated Local Search (ILS) et Destruction
+L'algorithme utilise maintenant un booléen `useDestruction` dans la configuration :
+*   **Destruction** : Lorsqu'un optimum local est atteint, au lieu de tout supprimer, on retire aléatoirement 50% des sommets (taux paramétrable).
+*   **Redémarrage (Multi-start)** : Le processus est répété `maxRestarts` fois. On conserve toujours la meilleure clique trouvée depuis le début de l'exécution.
+
+## 4. Organisation du code
+Le code est séparé dans les fichiers suivants pour une meilleure clarté :
+*   `hill_climber.hpp` : Structures de données et signatures.
+*   `hill_climber.cpp` : Logique algorithmique utilisant les fonctions de `utils.cpp` et les méthodes d'intersection de la classe `Graph`.
