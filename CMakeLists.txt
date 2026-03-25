@@ -15,6 +15,7 @@ add_executable(exemple
     graphs/graphAdjMatrix.cpp
     select.cpp
     utils.cpp
+    hill_climber.cpp
 )
 
 #set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY CXX_STANDARD 17)
