@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
     print_vector(a);
     cout << endl;
   }
-  vector<vertex> subset_vertices{0, 1, 2, 55};
+  vector<vertex> subset_vertices{0, 1, 2, 15};
   print_vector(subset_vertices);
   connected_components(g, subset_vertices, comp);
   for (auto a : comp) {
@@ -165,19 +165,28 @@ int main(int argc, char *argv[]) {
   descente_discret_aleatoire(&g, vRandom);
   descente_discret_best_improvement(&g, vRandom);
 
-  cout << "       EXERCICE 1 - Hill Climber N2" << endl;
+  cout << "       EXERCICE 1 - Tests indépendants" << endl;
+  
   HCConfig config;
-  config.maxRestarts = 5;
+  config.maxRestarts = 10;
+  
+  vertex vRestart = rand() % g.nb_vertices();
+  cout << "Sommet de départ : " << vRestart << endl;
 
-  cout << "Voisinage N2 (Best Improve) + Fallback N1 + Swap + Destruction 50%"
-       << endl;
-  vector<vertex> res = solve_hill_climber(g, config);
-  cout << "Meilleure clique trouvée (taille " << res.size() << ") : ";
-  print_vector(res);
+  // Test 1: N1 Uniquement (Graphe résiduel)
+  cout << "--- Test 1: N1 Best (Residual Degree) ---" << endl;
+  vector<vertex> res_n1 = solve_n1_best(g, vRestart);
+  cout << "Taille N1: " << res_n1.size() << " | Clique: "; print_vector(res_n1);
 
-  config.useBestN2 = false; // First Improve
-  cout << "Voisinage N2 (First Improve) : ";
-  res = solve_hill_climber(g, config);
-  cout << "Taille " << res.size() << endl;
+  // Test 2: N2 add Uniquement (Graphe résiduel)
+  cout << "\n--- Test 2: N2-Add Best ---" << endl;
+  vector<vertex> res_n2 = solve_n2_add_best(g, vRestart);
+  cout << "Taille N2: " << res_n2.size() << " | Clique: "; print_vector(res_n2);
+
+  // Test 3: Hill Climber Complet (10 restarts)
+  cout << "\n--- Test 3: HC Complet (10 iterations) ---" << endl;
+  vector<vertex> best = solve_hill_climber_complete(g, config);
+  cout << "Meilleure taille trouvée: " << best.size() << endl;
+
   return 0;
 }

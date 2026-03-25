@@ -28,20 +28,11 @@ void Graph::display_screen() const{
 // efficace quand on a une matrice d'adjacence
 void Graph::intersect_neighbors(vector<vertex> &vect, vertex v1) const
 {
-    /*
-    std::vector<vertex> neigh_v1 = neighbors(v1);
-    std::vector<vertex> result;
-    std::set_intersection(vect.begin(), vect.end(), neigh_v1.begin(), neigh_v1.end(),
-                         std::back_inserter(result));
-    vect = std::move(result);
-*/
-    //vector<vertex> copie = vect;
-    //vector<vertex> neigh_v1 = neighbors(v1);
     gint size_inter(0);
 
     for (auto v:vect){
-        if (is_edge(v,v1)){
-            vect.at(size_inter)=v;
+        if (is_edge(v,v1)) {
+            vect[size_inter]=v;
             size_inter ++;
         }
     }
