@@ -1,0 +1,23 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/exemple.dir/graph.cpp.o"
+  "CMakeFiles/exemple.dir/graph.cpp.o.d"
+  "CMakeFiles/exemple.dir/graphs/adjmat.cpp.o"
+  "CMakeFiles/exemple.dir/graphs/adjmat.cpp.o.d"
+  "CMakeFiles/exemple.dir/graphs/graphAdjMatrix.cpp.o"
+  "CMakeFiles/exemple.dir/graphs/graphAdjMatrix.cpp.o.d"
+  "CMakeFiles/exemple.dir/graphs/graphListAdj.cpp.o"
+  "CMakeFiles/exemple.dir/graphs/graphListAdj.cpp.o.d"
+  "CMakeFiles/exemple.dir/main.cpp.o"
+  "CMakeFiles/exemple.dir/main.cpp.o.d"
+  "CMakeFiles/exemple.dir/select.cpp.o"
+  "CMakeFiles/exemple.dir/select.cpp.o.d"
+  "CMakeFiles/exemple.dir/utils.cpp.o"
+  "CMakeFiles/exemple.dir/utils.cpp.o.d"
+  "exemple"
+  "exemple.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/exemple.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
