@@ -11,8 +11,8 @@ add_executable(exemple
     main.cpp
     graph.cpp
     graphs/graphListAdj.cpp
+    graphs/graphHeavy.cpp
     graphs/adjmat.cpp
-    graphs/graphAdjMatrix.cpp
     clique_solver.cpp
 
     utils.cpp
