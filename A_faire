@@ -1,4 +1,0 @@
-Prendre le max degree residual du sous graph restants
-
-Implémenter la fonction factorisée :
-bool descente_n1(const Graph * g, vector<vertex> clique, vector<vertex> restants);

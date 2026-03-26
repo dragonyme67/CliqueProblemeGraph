@@ -45,10 +45,6 @@ std::pair<vertex, gint> max_residual_degree_vertex(const Graph &g,const vector<v
             max_degree_vertex = v;
         }
     }
-    // Si aucun sommet n'a un degré résiduel > 0, on choisit le premier de la liste
-    if (max_degree == 0 && !sub.empty()) {
-        max_degree_vertex = sub[0];
-    }
     return std::make_pair(max_degree_vertex, max_degree);
 }
 
