@@ -1,21 +1,253 @@
 Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,Time_ms,Gap
-C125.9,125,6963,N1_Greedy,First,34,26,0,8
-C125.9,125,6963,N2_Pair_Fallback,First,34,31,11,3
-C125.9,125,6963,N2_Pair_NoFallback,First,34,30,7,4
-C125.9,125,6963,N3_Triple,First,34,31,124,3
-C125.9,125,6963,Ruin_And_Recreate,First,34,26,1,8
-C125.9,125,6963,N1_Greedy,Last,34,24,0,10
-C125.9,125,6963,N2_Pair_Fallback,Last,34,31,12,3
-C125.9,125,6963,N2_Pair_NoFallback,Last,34,30,9,4
-C125.9,125,6963,N3_Triple,Last,34,31,83,3
-C125.9,125,6963,Ruin_And_Recreate,Last,34,24,0,10
-C125.9,125,6963,N1_Greedy,Random,34,23,0,11
-C125.9,125,6963,N2_Pair_Fallback,Random,34,31,12,3
-C125.9,125,6963,N2_Pair_NoFallback,Random,34,30,10,4
-C125.9,125,6963,N3_Triple,Random,34,31,62,3
-C125.9,125,6963,Ruin_And_Recreate,Random,34,27,0,7
-C125.9,125,6963,N1_Greedy,Max residual degree,34,30,14,4
-C125.9,125,6963,N2_Pair_Fallback,Max residual degree,34,30,11,4
-C125.9,125,6963,N2_Pair_NoFallback,Max residual degree,34,30,6,4
-C125.9,125,6963,N3_Triple,Max residual degree,34,31,70,3
-C125.9,125,6963,Ruin_And_Recreate,Max residual degree,34,31,18,3
+brock200_1,200,14834,N1_Greedy,First,-1,13,0,-1
+brock200_1,200,14834,N1_Greedy,Last,-1,13,0,-1
+brock200_1,200,14834,Ruin_Recreate,First,-1,13,1,-1
+brock200_1,200,14834,N1_Greedy,Random,-1,12,0,-1
+brock200_1,200,14834,Ruin_Recreate,Last,-1,13,1,-1
+brock200_1,200,14834,Ruin_Recreate,Random,-1,16,1,-1
+brock200_1,200,14834,N2_Pair_Fallback,First,-1,18,16,-1
+brock200_1,200,14834,N2_Pair_Fallback,Last,-1,18,16,-1
+brock200_1,200,14834,N2_Pair_Fallback,Random,-1,18,16,-1
+brock200_1,200,14834,N1_Greedy,Max residual degree,-1,18,16,-1
+brock200_1,200,14834,N2_Pair_Fallback,Max residual degree,-1,18,17,-1
+brock200_1,200,14834,Ruin_Recreate,Max residual degree,-1,18,25,-1
+brock200_1,200,14834,N3_Triple,Last,-1,18,153,-1
+brock200_1,200,14834,N3_Triple,Random,-1,18,154,-1
+brock200_1,200,14834,N3_Triple,Max residual degree,-1,18,167,-1
+brock200_1,200,14834,N3_Triple,First,-1,18,197,-1
+brock200_2,200,9876,N1_Greedy,First,-1,7,0,-1
+brock200_2,200,9876,N1_Greedy,Last,-1,7,0,-1
+brock200_2,200,9876,N1_Greedy,Random,-1,9,0,-1
+brock200_2,200,9876,Ruin_Recreate,First,-1,7,0,-1
+brock200_2,200,9876,Ruin_Recreate,Last,-1,7,0,-1
+brock200_2,200,9876,N2_Pair_Fallback,First,-1,9,8,-1
+brock200_2,200,9876,N2_Pair_Fallback,Last,-1,9,8,-1
+brock200_2,200,9876,N1_Greedy,Max residual degree,-1,8,7,-1
+brock200_2,200,9876,N2_Pair_Fallback,Random,-1,9,8,-1
+brock200_2,200,9876,Ruin_Recreate,Random,-1,10,0,-1
+brock200_2,200,9876,Ruin_Recreate,Max residual degree,-1,9,8,-1
+brock200_2,200,9876,N2_Pair_Fallback,Max residual degree,-1,8,9,-1
+brock200_2,200,9876,N3_Triple,First,-1,9,77,-1
+brock200_2,200,9876,N3_Triple,Random,-1,9,85,-1
+brock200_2,200,9876,N3_Triple,Last,-1,9,102,-1
+brock200_2,200,9876,N3_Triple,Max residual degree,-1,9,108,-1
+brock200_3,200,12048,N1_Greedy,First,-1,11,0,-1
+brock200_3,200,12048,N1_Greedy,Last,-1,10,0,-1
+brock200_3,200,12048,N1_Greedy,Random,-1,11,0,-1
+brock200_3,200,12048,Ruin_Recreate,First,-1,11,0,-1
+brock200_3,200,12048,Ruin_Recreate,Last,-1,10,0,-1
+brock200_3,200,12048,Ruin_Recreate,Random,-1,12,0,-1
+brock200_3,200,12048,N2_Pair_Fallback,First,-1,12,8,-1
+brock200_3,200,12048,N2_Pair_Fallback,Last,-1,12,9,-1
+brock200_3,200,12048,N2_Pair_Fallback,Random,-1,12,9,-1
+brock200_3,200,12048,N1_Greedy,Max residual degree,-1,12,9,-1
+brock200_3,200,12048,N2_Pair_Fallback,Max residual degree,-1,12,10,-1
+brock200_3,200,12048,Ruin_Recreate,Max residual degree,-1,12,12,-1
+brock200_3,200,12048,N3_Triple,Last,-1,12,100,-1
+brock200_3,200,12048,N3_Triple,Max residual degree,-1,12,94,-1
+brock200_3,200,12048,N3_Triple,Random,-1,12,130,-1
+brock200_3,200,12048,N3_Triple,First,-1,12,133,-1
+brock200_4,200,13089,N1_Greedy,First,-1,12,0,-1
+brock200_4,200,13089,N1_Greedy,Last,-1,11,0,-1
+brock200_4,200,13089,N1_Greedy,Random,-1,12,0,-1
+brock200_4,200,13089,Ruin_Recreate,First,-1,12,0,-1
+brock200_4,200,13089,Ruin_Recreate,Last,-1,11,0,-1
+brock200_4,200,13089,Ruin_Recreate,Random,-1,13,0,-1
+brock200_4,200,13089,N1_Greedy,Max residual degree,-1,14,10,-1
+brock200_4,200,13089,N2_Pair_Fallback,Random,-1,12,10,-1
+brock200_4,200,13089,N2_Pair_Fallback,First,-1,12,11,-1
+brock200_4,200,13089,N2_Pair_Fallback,Last,-1,12,11,-1
+brock200_4,200,13089,Ruin_Recreate,Max residual degree,-1,14,13,-1
+brock200_4,200,13089,N2_Pair_Fallback,Max residual degree,-1,12,11,-1
+brock200_4,200,13089,N3_Triple,Last,-1,13,118,-1
+brock200_4,200,13089,N3_Triple,Random,-1,13,116,-1
+brock200_4,200,13089,N3_Triple,First,-1,13,157,-1
+brock200_4,200,13089,N3_Triple,Max residual degree,-1,13,151,-1
+brock400_1,400,59723,N1_Greedy,First,-1,15,0,-1
+brock400_1,400,59723,N1_Greedy,Last,-1,17,0,-1
+brock400_1,400,59723,N1_Greedy,Random,-1,17,0,-1
+brock400_1,400,59723,Ruin_Recreate,Last,-1,17,1,-1
+brock400_1,400,59723,Ruin_Recreate,First,-1,15,1,-1
+brock400_1,400,59723,Ruin_Recreate,Random,-1,18,1,-1
+brock400_1,400,59723,N2_Pair_Fallback,Max residual degree,-1,20,45,-1
+brock400_1,400,59723,N2_Pair_Fallback,Last,-1,21,48,-1
+brock400_1,400,59723,N2_Pair_Fallback,Random,-1,21,50,-1
+brock400_1,400,59723,N2_Pair_Fallback,First,-1,21,54,-1
+brock400_1,400,59723,N1_Greedy,Max residual degree,-1,21,53,-1
+brock400_1,400,59723,Ruin_Recreate,Max residual degree,-1,23,59,-1
+brock400_1,400,59723,N3_Triple,Last,-1,20,964,-1
+brock400_1,400,59723,N3_Triple,Random,-1,20,982,-1
+brock400_1,400,59723,N3_Triple,First,-1,20,1082,-1
+brock400_1,400,59723,N3_Triple,Max residual degree,-1,20,1179,-1
+brock400_2,400,59786,N1_Greedy,First,-1,17,0,-1
+brock400_2,400,59786,N1_Greedy,Random,-1,15,0,-1
+brock400_2,400,59786,N1_Greedy,Last,-1,17,0,-1
+brock400_2,400,59786,Ruin_Recreate,First,-1,17,2,-1
+brock400_2,400,59786,Ruin_Recreate,Last,-1,17,2,-1
+brock400_2,400,59786,Ruin_Recreate,Random,-1,19,1,-1
+brock400_2,400,59786,N2_Pair_Fallback,Last,-1,22,47,-1
+brock400_2,400,59786,N2_Pair_Fallback,First,-1,22,54,-1
+brock400_2,400,59786,N2_Pair_Fallback,Max residual degree,-1,22,54,-1
+brock400_2,400,59786,N2_Pair_Fallback,Random,-1,22,57,-1
+brock400_2,400,59786,N1_Greedy,Max residual degree,-1,20,57,-1
+brock400_2,400,59786,Ruin_Recreate,Max residual degree,-1,21,67,-1
+brock400_2,400,59786,N3_Triple,Max residual degree,-1,21,997,-1
+brock400_2,400,59786,N3_Triple,Last,-1,21,1031,-1
+brock400_2,400,59786,N3_Triple,Random,-1,21,1143,-1
+brock400_2,400,59786,N3_Triple,First,-1,21,1230,-1
+brock400_3,400,59681,N1_Greedy,First,-1,17,0,-1
+brock400_3,400,59681,N1_Greedy,Random,-1,16,0,-1
+brock400_3,400,59681,N1_Greedy,Last,-1,17,0,-1
+brock400_3,400,59681,Ruin_Recreate,First,-1,17,1,-1
+brock400_3,400,59681,Ruin_Recreate,Last,-1,17,1,-1
+brock400_3,400,59681,Ruin_Recreate,Random,-1,18,1,-1
+brock400_3,400,59681,N2_Pair_Fallback,Random,-1,20,50,-1
+brock400_3,400,59681,N2_Pair_Fallback,Last,-1,20,51,-1
+brock400_3,400,59681,N2_Pair_Fallback,First,-1,20,52,-1
+brock400_3,400,59681,N2_Pair_Fallback,Max residual degree,-1,20,50,-1
+brock400_3,400,59681,Ruin_Recreate,Max residual degree,-1,21,58,-1
+brock400_3,400,59681,N1_Greedy,Max residual degree,-1,20,56,-1
+brock400_3,400,59681,N3_Triple,Random,-1,20,968,-1
+brock400_3,400,59681,N3_Triple,Max residual degree,-1,20,979,-1
+brock400_3,400,59681,N3_Triple,Last,-1,20,1190,-1
+brock400_3,400,59681,N3_Triple,First,-1,20,1200,-1
+brock400_4,400,59765,N1_Greedy,First,-1,17,0,-1
+brock400_4,400,59765,N1_Greedy,Last,-1,16,0,-1
+brock400_4,400,59765,N1_Greedy,Random,-1,17,0,-1
+brock400_4,400,59765,Ruin_Recreate,First,-1,17,1,-1
+brock400_4,400,59765,Ruin_Recreate,Last,-1,16,2,-1
+brock400_4,400,59765,Ruin_Recreate,Random,-1,19,1,-1
+brock400_4,400,59765,N2_Pair_Fallback,Max residual degree,-1,22,43,-1
+brock400_4,400,59765,N2_Pair_Fallback,First,-1,23,49,-1
+brock400_4,400,59765,N2_Pair_Fallback,Random,-1,23,51,-1
+brock400_4,400,59765,N2_Pair_Fallback,Last,-1,23,54,-1
+brock400_4,400,59765,N1_Greedy,Max residual degree,-1,22,58,-1
+brock400_4,400,59765,Ruin_Recreate,Max residual degree,-1,22,65,-1
+brock400_4,400,59765,N3_Triple,First,-1,21,988,-1
+brock400_4,400,59765,N3_Triple,Max residual degree,-1,21,988,-1
+brock400_4,400,59765,N3_Triple,Random,-1,21,1143,-1
+brock400_4,400,59765,N3_Triple,Last,-1,21,1214,-1
+brock800_1,800,207505,N1_Greedy,First,-1,14,0,-1
+brock800_1,800,207505,N1_Greedy,Random,-1,12,0,-1
+brock800_1,800,207505,N1_Greedy,Last,-1,13,0,-1
+brock800_1,800,207505,Ruin_Recreate,Last,-1,13,3,-1
+brock800_1,800,207505,Ruin_Recreate,First,-1,14,3,-1
+brock800_1,800,207505,Ruin_Recreate,Random,-1,15,5,-1
+brock800_1,800,207505,N2_Pair_Fallback,Max residual degree,-1,18,130,-1
+brock800_1,800,207505,N2_Pair_Fallback,Last,-1,19,153,-1
+brock800_1,800,207505,N2_Pair_Fallback,First,-1,19,157,-1
+brock800_1,800,207505,N2_Pair_Fallback,Random,-1,19,168,-1
+brock800_1,800,207505,N1_Greedy,Max residual degree,-1,16,170,-1
+brock800_1,800,207505,Ruin_Recreate,Max residual degree,-1,16,179,-1
+brock800_1,800,207505,N3_Triple,Random,-1,16,5729,-1
+brock800_1,800,207505,N3_Triple,Max residual degree,-1,16,5780,-1
+brock800_1,800,207505,N3_Triple,First,-1,16,6988,-1
+brock800_1,800,207505,N3_Triple,Last,-1,16,7306,-1
+brock800_2,800,208166,N1_Greedy,First,-1,14,0,-1
+brock800_2,800,208166,N1_Greedy,Last,-1,13,0,-1
+brock800_2,800,208166,N1_Greedy,Random,-1,14,0,-1
+brock800_2,800,208166,Ruin_Recreate,First,-1,14,2,-1
+brock800_2,800,208166,Ruin_Recreate,Last,-1,13,2,-1
+brock800_2,800,208166,Ruin_Recreate,Random,-1,15,3,-1
+brock800_2,800,208166,N2_Pair_Fallback,Random,-1,16,123,-1
+brock800_2,800,208166,Ruin_Recreate,Max residual degree,-1,18,152,-1
+brock800_2,800,208166,N2_Pair_Fallback,Last,-1,16,162,-1
+brock800_2,800,208166,N2_Pair_Fallback,Max residual degree,-1,16,161,-1
+brock800_2,800,208166,N1_Greedy,Max residual degree,-1,17,162,-1
+brock800_2,800,208166,N2_Pair_Fallback,First,-1,16,167,-1
+brock800_2,800,208166,N3_Triple,Max residual degree,-1,18,5838,-1
+brock800_2,800,208166,N3_Triple,Random,-1,18,5999,-1
+brock800_2,800,208166,N3_Triple,First,-1,18,6201,-1
+brock800_2,800,208166,N3_Triple,Last,-1,18,7090,-1
+brock800_3,800,207333,N1_Greedy,First,-1,14,0,-1
+brock800_3,800,207333,N1_Greedy,Last,-1,15,0,-1
+brock800_3,800,207333,N1_Greedy,Random,-1,14,0,-1
+brock800_3,800,207333,Ruin_Recreate,First,-1,14,1,-1
+brock800_3,800,207333,Ruin_Recreate,Last,-1,15,2,-1
+brock800_3,800,207333,Ruin_Recreate,Random,-1,16,2,-1
+brock800_3,800,207333,N1_Greedy,Max residual degree,-1,17,136,-1
+brock800_3,800,207333,Ruin_Recreate,Max residual degree,-1,17,132,-1
+brock800_3,800,207333,N2_Pair_Fallback,Random,-1,18,150,-1
+brock800_3,800,207333,N2_Pair_Fallback,Last,-1,18,154,-1
+brock800_3,800,207333,N2_Pair_Fallback,First,-1,18,157,-1
+brock800_3,800,207333,N2_Pair_Fallback,Max residual degree,-1,18,164,-1
+brock800_3,800,207333,N3_Triple,Random,-1,16,5698,-1
+brock800_3,800,207333,N3_Triple,Last,-1,16,6096,-1
+brock800_3,800,207333,N3_Triple,First,-1,16,6255,-1
+brock800_3,800,207333,N3_Triple,Max residual degree,-1,16,6862,-1
+brock800_4,800,207643,N1_Greedy,First,-1,13,0,-1
+brock800_4,800,207643,N1_Greedy,Random,-1,13,0,-1
+brock800_4,800,207643,N1_Greedy,Last,-1,16,0,-1
+brock800_4,800,207643,Ruin_Recreate,First,-1,13,2,-1
+brock800_4,800,207643,Ruin_Recreate,Last,-1,16,2,-1
+brock800_4,800,207643,Ruin_Recreate,Random,-1,15,2,-1
+brock800_4,800,207643,N1_Greedy,Max residual degree,-1,17,123,-1
+brock800_4,800,207643,N2_Pair_Fallback,Last,-1,19,155,-1
+brock800_4,800,207643,Ruin_Recreate,Max residual degree,-1,17,141,-1
+brock800_4,800,207643,N2_Pair_Fallback,Random,-1,19,156,-1
+brock800_4,800,207643,N2_Pair_Fallback,First,-1,19,183,-1
+brock800_4,800,207643,N2_Pair_Fallback,Max residual degree,-1,18,189,-1
+brock800_4,800,207643,N3_Triple,Last,-1,18,5692,-1
+brock800_4,800,207643,N3_Triple,First,-1,18,6295,-1
+brock800_4,800,207643,N3_Triple,Random,-1,18,6460,-1
+brock800_4,800,207643,N3_Triple,Max residual degree,-1,18,7196,-1
+C1000.9,1000,450079,N1_Greedy,Random,-1,45,1,-1
+C1000.9,1000,450079,N1_Greedy,First,-1,44,1,-1
+C1000.9,1000,450079,N1_Greedy,Last,-1,46,1,-1
+C1000.9,1000,450079,Ruin_Recreate,First,-1,44,13,-1
+C1000.9,1000,450079,Ruin_Recreate,Last,-1,46,14,-1
+C1000.9,1000,450079,Ruin_Recreate,Random,-1,52,12,-1
+C1000.9,1000,450079,N2_Pair_Fallback,Max residual degree,-1,60,553,-1
+C1000.9,1000,450079,N2_Pair_Fallback,Last,-1,61,639,-1
+C1000.9,1000,450079,N2_Pair_Fallback,First,-1,61,646,-1
+C1000.9,1000,450079,N2_Pair_Fallback,Random,-1,61,717,-1
+C1000.9,1000,450079,N1_Greedy,Max residual degree,-1,61,843,-1
+C1000.9,1000,450079,Ruin_Recreate,Max residual degree,-1,61,890,-1
+C1000.9,1000,450079,N3_Triple,Random,-1,59,38762,-1
+C1000.9,1000,450079,N3_Triple,Last,-1,59,39580,-1
+C1000.9,1000,450079,N3_Triple,Max residual degree,-1,59,41866,-1
+C1000.9,1000,450079,N3_Triple,First,-1,59,43095,-1
+C125.9,125,6963,N1_Greedy,First,-1,26,0,-1
+C125.9,125,6963,N1_Greedy,Last,-1,24,0,-1
+C125.9,125,6963,N1_Greedy,Random,-1,26,0,-1
+C125.9,125,6963,Ruin_Recreate,First,-1,26,1,-1
+C125.9,125,6963,Ruin_Recreate,Last,-1,24,1,-1
+C125.9,125,6963,Ruin_Recreate,Random,-1,33,3,-1
+C125.9,125,6963,N2_Pair_Fallback,Last,-1,31,13,-1
+C125.9,125,6963,N2_Pair_Fallback,Random,-1,31,13,-1
+C125.9,125,6963,N2_Pair_Fallback,First,-1,31,14,-1
+C125.9,125,6963,N2_Pair_Fallback,Max residual degree,-1,30,12,-1
+C125.9,125,6963,N1_Greedy,Max residual degree,-1,30,14,-1
+C125.9,125,6963,Ruin_Recreate,Max residual degree,-1,32,26,-1
+C125.9,125,6963,N3_Triple,Last,-1,31,123,-1
+C125.9,125,6963,N3_Triple,Random,-1,31,129,-1
+C125.9,125,6963,N3_Triple,First,-1,31,147,-1
+C125.9,125,6963,N3_Triple,Max residual degree,-1,31,140,-1
+C2000.5,2000,999836,N1_Greedy,First,-1,11,0,-1
+C2000.5,2000,999836,Ruin_Recreate,First,-1,11,7,-1
+C2000.5,2000,999836,N1_Greedy,Random,-1,10,0,-1
+C2000.5,2000,999836,N1_Greedy,Last,-1,10,1,-1
+C2000.5,2000,999836,Ruin_Recreate,Random,-1,12,3,-1
+C2000.5,2000,999836,Ruin_Recreate,Last,-1,10,6,-1
+C2000.5,2000,999836,N1_Greedy,Max residual degree,-1,12,811,-1
+C2000.5,2000,999836,Ruin_Recreate,Max residual degree,-1,13,803,-1
+C2000.5,2000,999836,N2_Pair_Fallback,Max residual degree,-1,12,836,-1
+C2000.5,2000,999836,N2_Pair_Fallback,First,-1,13,904,-1
+C2000.5,2000,999836,N2_Pair_Fallback,Last,-1,13,891,-1
+C2000.5,2000,999836,N2_Pair_Fallback,Random,-1,13,939,-1
+C2000.5,2000,999836,N3_Triple,First,-1,0,79675,-1
+C2000.5,2000,999836,N3_Triple,Max residual degree,-1,0,83382,-1
+C2000.5,2000,999836,N3_Triple,Random,-1,0,84243,-1
+C2000.5,2000,999836,N3_Triple,Last,-1,0,87785,-1
+C2000.9,2000,1799532,N1_Greedy,Last,-1,49,2,-1
+C2000.9,2000,1799532,N1_Greedy,Random,-1,53,2,-1
+C2000.9,2000,1799532,N1_Greedy,First,-1,52,2,-1
+C2000.9,2000,1799532,Ruin_Recreate,Last,-1,49,27,-1
+C2000.9,2000,1799532,Ruin_Recreate,Random,-1,57,31,-1
+C2000.9,2000,1799532,Ruin_Recreate,First,-1,52,41,-1
+C2000.9,2000,1799532,N2_Pair_Fallback,Random,-1,70,2413,-1
+C2000.9,2000,1799532,N2_Pair_Fallback,Last,-1,70,2440,-1
+C2000.9,2000,1799532,N2_Pair_Fallback,Max residual degree,-1,70,2476,-1
+C2000.9,2000,1799532,N2_Pair_Fallback,First,-1,70,2519,-1
+C2000.9,2000,1799532,Ruin_Recreate,Max residual degree,-1,68,2794,-1
+C2000.9,2000,1799532,N1_Greedy,Max residual degree,-1,66,3078,-1
