@@ -1,40 +1,54 @@
 #include "clique_solver.hpp"
 #include "graphs/graphHeavy.hpp"
-
 #include "utils.hpp"
+#include <algorithm>
+#include <chrono>
+#include <fstream>
 #include <iostream>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
 
-void test_algorithm(const string &algo_name, const Graph &g,
-                    const vector<vertex> &clique) {
-  cout << "  " << algo_name << " clique size: " << clique.size();
-  if (is_clique(g, clique)) {
-    cout << " (Validated)";
-  } else {
-    cout << " (INVALID CLIQUE!)";
-  }
-  cout << endl;
+unordered_map<string, int> get_optimums() {
+  return {
+      {"C125.9", 34},         {"C250.9", 44},         {"C500.9", 57},
+      {"C1000.9", 68},        {"C2000.9", 78},        {"DSJC1000_5", 15},
+      {"DSJC500_5", 13},      {"C2000.5", 16},        {"C4000.5", 18},
+      {"MANN_a27", 126},      {"MANN_a45", 344},      {"MANN_a81", 1100},
+      {"brock200_2", 12},     {"brock200_4", 17},     {"brock400_2", 29},
+      {"brock400_4", 33},     {"brock800_2", 24},     {"brock800_4", 26},
+      {"gen200_p0.9_44", 44}, {"gen200_p0.9_55", 55}, {"gen400_p0.9_55", 55},
+      {"gen400_p0.9_65", 65}, {"gen400_p0.9_75", 75}, {"hamming10-4", 40},
+      {"hamming8-4", 16},     {"keller4", 11},        {"keller5", 27},
+      {"keller6", 59},        {"p_hat300-1", 8},      {"p_hat300-2", 25},
+      {"p_hat300-3", 36},     {"p_hat700-1", 11},     {"p_hat700-2", 44},
+      {"p_hat700-3", 62},     {"p_hat1500-1", 12},    {"p_hat1500-2", 65},
+      {"p_hat1500-3", 94}};
+}
+
+string get_base_filename(const string &path) {
+  size_t pos = path.find_last_of("/\\");
+  string base = (pos != string::npos) ? path.substr(pos + 1) : path;
+  size_t ext_pos = base.find_last_of(".");
+  if (ext_pos != string::npos)
+    base = base.substr(0, ext_pos);
+  return base;
 }
 
 int main(int argc, char *argv[]) {
-  string s("C125.9.clq");
-  if (argc >= 2) {
-    s = argv[1];
+  if (argc < 2) {
+    cerr << "Usage: " << argv[0] << " <instance1.clq> [<instance2.clq> ...]"
+         << endl;
+    return 1;
   }
 
-  // Try to load the graph, default to a random graph if it fails or if no file
-  // is provided For now, let's use the random graph as in the original main.cpp
-  GraphHeavy g(s);
-
-  cout << "Graph Information:" << endl;
-  cout << "  Vertices: " << g.nb_vertices() << endl;
-  cout << "  Edges:    " << nb_edges(g) << endl;
-  cout << "  Density:  " << density(g) << endl;
-  cout << "  Max Deg:  " << max_degree(g) << endl;
-  cout << "------------------------------------" << endl;
+  ofstream csv("benchmark_results.csv");
+  csv << "Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,"
+         "Time_ms,Gap\n";
+  auto optimums = get_optimums();
 
   vector<unique_ptr<Strategy>> strategies;
   strategies.push_back(make_unique<FirstStrategy>());
@@ -42,34 +56,82 @@ int main(int argc, char *argv[]) {
   strategies.push_back(make_unique<RandomStrategy>());
   strategies.push_back(make_unique<MaxResidualDegreeStrategy>());
 
-  for (const auto &strategy : strategies) {
-    cout << "Strategy: " << strategy->toString() << endl;
+  for (int i = 1; i < argc; ++i) {
+    string filepath = argv[i];
+    string instance_name = get_base_filename(filepath);
+    cout << "Processing: " << instance_name << " (" << filepath << ")" << endl;
 
-    // Test N1 Greedy Descent
-    vector<vertex> initial_clique;
-    vector<vertex> clique_n1 = greedy_descent_n1(g, initial_clique, *strategy);
-    test_algorithm("N1 Greedy", g, clique_n1);
+    GraphHeavy *g_ptr;
+    try {
+      g_ptr = new GraphHeavy(filepath);
+    } catch (...) {
+      cerr << "  Failed to load GraphHeavy with file: " << filepath << endl;
+      continue;
+    }
 
-    bool use_fallback = true;
-    vector<vertex> clique_n2_with_fallback =
-        pair_descent_n2(g, initial_clique, *strategy, use_fallback);
-    test_algorithm("N2 Pair with FallBack ", g, clique_n2_with_fallback);
+    const Graph &g = *g_ptr;
+    int opt_val = optimums.count(instance_name) ? optimums[instance_name] : -1;
 
-    use_fallback = false;
-    vector<vertex> clique_n2_no_fallback =
-        pair_descent_n2(g, initial_clique, *strategy, use_fallback);
-    test_algorithm("N2 Pair without FallBack ", g, clique_n2_no_fallback);
+    auto run_test = [&](const string &algo_name, const Strategy &strat,
+                        auto func) {
+      auto start = chrono::high_resolution_clock::now();
+      vector<vertex> clique = func(g, vector<vertex>(), strat);
+      auto end = chrono::high_resolution_clock::now();
+      auto time_ms =
+          chrono::duration_cast<chrono::milliseconds>(end - start).count();
 
-    // Test Ruin and Recreate
+      int found_size = clique.size();
+      bool valid = true;
+      if (found_size > 0 && !is_clique(g, clique)) {
+        valid = false;
+        found_size = -2; // invalid!
+      }
+      if (found_size == 0)
+        found_size = -1; // timeout mapped to -1 / 0
 
-    int iterations = 10;
-    int ruin_percent = 50;
-    vector<vertex> clique_rr = ruin_and_recreate(g, initial_clique, iterations,
-                                                 ruin_percent, *strategy);
-    test_algorithm("R&R (100)", g, clique_rr);
+      int gap = (opt_val > 0 && found_size > 0) ? opt_val - found_size : -1;
 
+      csv << instance_name << "," << g.nb_vertices() << "," << nb_edges(g)
+          << "," << algo_name << "," << strat.toString() << "," << opt_val
+          << "," << found_size << "," << time_ms << "," << gap << "\n";
+      csv.flush();
+      cout << "  " << algo_name << " (" << strat.toString()
+           << ") -> Size: " << found_size << " (Time: " << time_ms << "ms)"
+           << endl;
+    };
+
+    for (const auto &strategy : strategies) {
+      run_test("N1_Greedy", *strategy,
+               [](const Graph &g, const vector<vertex> &init,
+                  const Strategy &s) { return greedy_descent_n1(g, init, s); });
+
+      run_test(
+          "N2_Pair_Fallback", *strategy,
+          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
+            return pair_descent_n2(g, init, s, true);
+          });
+
+      run_test(
+          "N2_Pair_NoFallback", *strategy,
+          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
+            return pair_descent_n2(g, init, s, false);
+          });
+
+      run_test("N3_Triple", *strategy,
+               [](const Graph &g, const vector<vertex> &init,
+                  const Strategy &s) { return triple_descent_n3(g, init, s); });
+
+      run_test(
+          "Ruin_And_Recreate", *strategy,
+          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
+            return ruin_and_recreate(g, init, 10, 50, s);
+          });
+    }
+    delete g_ptr;
     cout << "------------------------------------" << endl;
   }
 
+  csv.close();
+  cout << "Benchmark complete. Results saved to benchmark_results.csv" << endl;
   return 0;
 }

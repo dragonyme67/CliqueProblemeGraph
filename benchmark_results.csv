@@ -1,0 +1,21 @@
+Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,Time_ms,Gap
+C125.9,125,6963,N1_Greedy,First,34,26,0,8
+C125.9,125,6963,N2_Pair_Fallback,First,34,31,11,3
+C125.9,125,6963,N2_Pair_NoFallback,First,34,30,7,4
+C125.9,125,6963,N3_Triple,First,34,31,124,3
+C125.9,125,6963,Ruin_And_Recreate,First,34,26,1,8
+C125.9,125,6963,N1_Greedy,Last,34,24,0,10
+C125.9,125,6963,N2_Pair_Fallback,Last,34,31,12,3
+C125.9,125,6963,N2_Pair_NoFallback,Last,34,30,9,4
+C125.9,125,6963,N3_Triple,Last,34,31,83,3
+C125.9,125,6963,Ruin_And_Recreate,Last,34,24,0,10
+C125.9,125,6963,N1_Greedy,Random,34,23,0,11
+C125.9,125,6963,N2_Pair_Fallback,Random,34,31,12,3
+C125.9,125,6963,N2_Pair_NoFallback,Random,34,30,10,4
+C125.9,125,6963,N3_Triple,Random,34,31,62,3
+C125.9,125,6963,Ruin_And_Recreate,Random,34,27,0,7
+C125.9,125,6963,N1_Greedy,Max residual degree,34,30,14,4
+C125.9,125,6963,N2_Pair_Fallback,Max residual degree,34,30,11,4
+C125.9,125,6963,N2_Pair_NoFallback,Max residual degree,34,30,6,4
+C125.9,125,6963,N3_Triple,Max residual degree,34,31,70,3
+C125.9,125,6963,Ruin_And_Recreate,Max residual degree,34,31,18,3

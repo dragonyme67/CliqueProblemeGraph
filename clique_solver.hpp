@@ -61,6 +61,11 @@ std::vector<vertex> pair_descent_n2(const Graph &g,
                                     const Strategy &s,
                                     bool use_fallback = true);
 
+std::vector<vertex> triple_descent_n3(const Graph &g,
+                                      std::vector<vertex> initial_clique,
+                                      const Strategy &s);
+
 std::vector<vertex> ruin_and_recreate(const Graph &g,
                                       std::vector<vertex> initial_clique,
-                                      int iterations, int ruin_percent, const Strategy &s);
+                                      int iterations, int ruin_percent,
+                                      const Strategy &s);
