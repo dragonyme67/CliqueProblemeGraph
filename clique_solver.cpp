@@ -328,20 +328,26 @@ vector<vertex> pair_descent_n2(const Graph &g, vector<vertex> initial_clique,
   initialize_candidates(g, clique, candidates);
 
   auto start_time = std::chrono::steady_clock::now();
+  bool improved = true;
 
-  // On boucle tant qu'on peut ajouter une paire
-  while (candidates.size() >= 2) {
-    // Vérification du chrono (Limite 1h / 3600s)
+  while (improved) {
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time).count();
     if (elapsed >= 3600) break;
 
-    if (!try_add_pair(g, clique, candidates, s))
-      break;
+    if (candidates.size() >= 2 && try_add_pair(g, clique, candidates, s)) {
+        improved = true;
+        continue;
+    }
+    if (try_swap_1_for_1(g, clique, candidates, s)) {
+        improved = true;
+        continue;
+    }
+
+    improved = false;
   }
 
   if (use_fallback) {
-      // Le fallback doit aussi respecter le temps restant
       return greedy_descent_n1(g, clique, s);
   }
 
@@ -367,10 +373,9 @@ vector<vertex> triple_descent_n3(const Graph &g, vector<vertex> initial_clique, 
 
         // Ordre de recherche locale (du plus efficace au plus coûteux)
         improved = try_add_triple(g, clique, candidates, s) || // +3 sommets
-                   try_add_pair(g, clique, candidates, s)   || // +2 sommets
+                   try_add_pair(g, clique, candidates, s)   || // +2 sommets / 1 - 1 sommets
                    try_add_one(g, clique, candidates, s)    || // +1 sommet
-                   try_swap_1_for_2(g, clique, candidates, s) || // Swap qui gagne +1 en taille
-                   try_swap_1_for_1(g, clique, candidates, s);   // Swap qualitatif
+                   try_swap_1_for_2(g, clique, candidates, s); // Swap qui gagne +1 en taille
     }
     return clique;
 }

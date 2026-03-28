@@ -58,6 +58,7 @@ string get_base_filename(const string &path) {
   return base;
 }
 
+
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     cerr << "Usage: " << argv[0] << " <instance1.clq> ..." << endl;
@@ -65,108 +66,97 @@ int main(int argc, char *argv[]) {
   }
 
   ofstream csv("benchmark_results.csv");
-  csv << "Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,"
-         "TotalWeight,Time_ms,Gap\n";
+  csv << "Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,TotalWeight,Time_ms,Gap\n";
   auto optimums = get_optimums();
 
-  // On utilise des pointeurs bruts ici pour les stratégies car elles sont
-  // stateless et partagées entre les threads.
+  // Initialisation des stratégies
   vector<unique_ptr<Strategy>> strategies;
   strategies.push_back(make_unique<FirstStrategy>());
   strategies.push_back(make_unique<LastStrategy>());
   strategies.push_back(make_unique<RandomStrategy>());
   strategies.push_back(make_unique<MaxResidualDegreeStrategy>());
   strategies.push_back(make_unique<WeightedStrategy>());
-for(int j = 0; j < 3; ++j){
-  for (int i = 1; i < argc; ++i) {
-    string filepath = argv[i];
-    string instance_name = get_base_filename(filepath);
 
-    cout << ">>> Loading: " << instance_name << endl;
-    unique_ptr<GraphHeavy> g_ptr;
-    try {
-      g_ptr = make_unique<GraphHeavy>(filepath);
-    } catch (...) {
-      cerr << "Failed to load: " << filepath << endl;
-      continue;
-    }
+  for (int j = 0; j < 20; ++j) {
+    for (int i = 1; i < argc; ++i) {
+      string filepath = argv[i];
+      string instance_name = get_base_filename(filepath);
 
-    const Graph &g = *g_ptr;
-    int opt_val = optimums.count(instance_name) ? optimums[instance_name] : -1;
-    if(opt_val >= 0){
-    // Liste des tâches asynchrones
-    vector<future<void>> futures;
-
-    auto run_task = [&](string algo_name, const Strategy *strat, auto func) {
-      auto start = chrono::high_resolution_clock::now();
-      vector<vertex> clique = func(g, vector<vertex>(), *strat);
-      auto end = chrono::high_resolution_clock::now();
-
-      auto time_ms =
-          chrono::duration_cast<chrono::milliseconds>(end - start).count();
-      int found_size = clique.size();
-      int total_weight = 0;
-      if (found_size > 0) {
-              if (!is_clique(g, clique)) {
-                  found_size = -2;
-              } else {
-                  for (vertex v : clique) total_weight += getVertexWeight(g, v);
-              }
-          }
-      int gap = (opt_val > 0 && found_size > 0) ? opt_val - found_size : -1;
-
-      // Section critique pour l'écriture
-      {
-            lock_guard<mutex> lock_csv(csv_mutex);
-            // Écriture du poids dans le CSV
-            csv << instance_name << "," << g.nb_vertices() << "," << nb_edges(g)
-                << "," << algo_name << "," << strat->toString() << "," << opt_val
-                << "," << found_size << "," << total_weight << "," << time_ms << "," << gap << "\n";
-            csv.flush();
-          }
-      {
-        lock_guard<mutex> lock_cout(cout_mutex);
-        cout << "  [DONE] " << algo_name << " (" << strat->toString() << ") -> "
-             << found_size  << " | " << total_weight << " in " << time_ms << "ms" << endl;
+      unique_ptr<GraphHeavy> g_ptr;
+      try {
+        g_ptr = make_unique<GraphHeavy>(filepath);
+      } catch (...) {
+        cerr << "Failed to load: " << filepath << endl;
+        continue;
       }
-    };
 
-    // Lancement des threads pour chaque combinaison
-    for (const auto &strategy : strategies) {
-      futures.push_back(async(
-          launch::async, run_task, "N1_Greedy", strategy.get(),
-          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
-            return greedy_descent_n1(g, init, s);
-          }));
+      const Graph &g = *g_ptr;
+      int opt_val = optimums.count(instance_name) ? optimums[instance_name] : -1;
+      
+      cout << ">>> Instance: " << instance_name << " (Pass " << j+1 << ")" << endl;
 
-      futures.push_back(async(
-          launch::async, run_task, "N2_Pair_Fallback", strategy.get(),
-          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
-            return pair_descent_n2(g, init, s, true);
-          }));
+      // Définition des algos à tester séquentiellement
+      struct Algo {
+        string name;
+        function<vector<vertex>(const Graph&, const Strategy&)> run;
+      };
 
-      futures.push_back(async(
-          launch::async, run_task, "N3_Triple", strategy.get(),
-          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
-            return triple_descent_n3(g, init, s);
-          }));
+      vector<Algo> test_suite = {
+        {"N1_Greedy", [](const Graph& g, const Strategy& s) { return greedy_descent_n1(g, {}, s); }},
+        {"N2_Pair_Fallback", [](const Graph& g, const Strategy& s) { return pair_descent_n2(g, {}, s, true); }},
+        {"N2_Pair_NoFallback", [](const Graph& g, const Strategy& s) { return pair_descent_n2(g, {}, s, false); }},
+        {"N3_Triple", [](const Graph& g, const Strategy& s) { return triple_descent_n3(g, {}, s); }},
+        {"Ruin_Recreate", [](const Graph& g, const Strategy& s) { return ruin_and_recreate(g, {}, 10, 50, s); }}
+      };
 
-      futures.push_back(async(
-          launch::async, run_task, "Ruin_Recreate", strategy.get(),
-          [](const Graph &g, const vector<vertex> &init, const Strategy &s) {
-            return ruin_and_recreate(g, init, 10, 50, s);
+      // Pour chaque algorithme, on lance toutes les stratégies en parallèle
+      for (const auto& algo : test_suite) {
+        vector<future<void>> futures;
+
+        for (const auto& strat_ptr : strategies) {
+          const Strategy* s = strat_ptr.get();
+
+          futures.push_back(async(launch::async, [&, s, algo, instance_name, opt_val]() {
+            auto start = chrono::high_resolution_clock::now();
+            
+            // Exécution de l'algorithme avec la stratégie donnée
+            vector<vertex> clique = algo.run(g, *s);
+            
+            auto end = chrono::high_resolution_clock::now();
+            auto time_ms = chrono::duration_cast<chrono::milliseconds>(end - start).count();
+
+            // Calcul du poids et validation
+            int found_size = clique.size();
+            long long total_weight = 0;
+            if (found_size > 0 && is_clique(g, clique)) {
+              for (vertex v : clique) total_weight += getVertexWeight(g, v);
+            } else if (found_size > 0) {
+              found_size = -2; // Erreur de validité
+            }
+
+            int gap = (opt_val > 0 && found_size > 0) ? opt_val - found_size : -1;
+
+            // Sorties sécurisées par mutex
+            {
+              lock_guard<mutex> lock_csv(csv_mutex);
+              csv << instance_name << "," << g.nb_vertices() << "," << nb_edges(g)
+                  << "," << algo.name << "," << s->toString() << "," << opt_val
+                  << "," << found_size << "," << total_weight << "," << time_ms << "," << gap << "\n";
+              csv.flush();
+            }
+            {
+              lock_guard<mutex> lock_cout(cout_mutex);
+              cout << "    [" << algo.name << "] " << s->toString() << " -> Size: " 
+                   << found_size << " | Weight: " << total_weight << " (" << time_ms << "ms)" << endl;
+            }
           }));
+        }
+        // Attente de la fin de la vague de stratégies pour cet algorithme
+        for (auto &f : futures) f.wait();
+      }
+      cout << "------------------------------------" << endl;
     }
-
-    // Attente de la fin de tous les algos pour ce graphe avant de passer au
-    // suivant (mémoire)
-    for (auto &f : futures)
-      f.wait();
-    cout << "Finished instance: " << instance_name
-         << "\n------------------------------------" << endl;
   }
-}
-}
   csv.close();
   return 0;
 }
