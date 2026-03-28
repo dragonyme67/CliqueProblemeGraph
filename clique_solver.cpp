@@ -312,7 +312,7 @@ vector<vertex> greedy_descent_n1(const Graph &g, vector<vertex> initial_clique,
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time)
                        .count();
-    if (elapsed >= 3600)
+    if (elapsed >= 600)
       return {};
 
     if (!try_add_one(g, clique, candidates, s))
@@ -333,7 +333,7 @@ vector<vertex> pair_descent_n2(const Graph &g, vector<vertex> initial_clique,
   while (improved) {
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time).count();
-    if (elapsed >= 3600) break;
+    if (elapsed >= 600) break;
 
     if (candidates.size() >= 2 && try_add_pair(g, clique, candidates, s)) {
         improved = true;
@@ -369,7 +369,7 @@ vector<vertex> triple_descent_n3(const Graph &g, vector<vertex> initial_clique, 
         // Vérification du chrono
         auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                            std::chrono::steady_clock::now() - start_time).count();
-        if (elapsed >= 3600) break;
+        if (elapsed >= 600) break;
 
         // Ordre de recherche locale (du plus efficace au plus coûteux)
         improved = try_add_triple(g, clique, candidates, s) || // +3 sommets
@@ -394,7 +394,7 @@ vector<vertex> ruin_and_recreate(const Graph &g, vector<vertex> initial_clique,
   {
     if (std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - start_time)
-            .count() >= 3600)
+            .count() >= 600)
       return vector<vertex>();
     if (current_clique.size() > 1)
     {

@@ -24,11 +24,11 @@ unordered_map<string, int> get_optimums() {
   return {
       {"C125.9", 34},         {"C250.9", 44},         {"C500.9", 57},
 
-      {"C1000.9", 68},        {"C2000.9", 78},        {"DSJC1000_5", 15},
+      {"C2000.9", 78},        {"DSJC1000_5", 15},
 
       {"DSJC500_5", 13},      {"C2000.5", 16},        {"C4000.5", 18},
 
-      {"MANN_a27", 126},      {"MANN_a45", 344},      {"MANN_a81", 1100},
+      {"MANN_a27", 126},      {"MANN_a45", 344},
 
       {"brock200_2", 12},     {"brock200_4", 17},     {"brock400_2", 29},
 
@@ -60,7 +60,7 @@ string get_base_filename(const string &path) {
 
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
+  if (argc < 3) {
     cerr << "Usage: " << argv[0] << " <instance1.clq> ..." << endl;
     return 1;
   }
@@ -77,10 +77,16 @@ int main(int argc, char *argv[]) {
   strategies.push_back(make_unique<MaxResidualDegreeStrategy>());
   strategies.push_back(make_unique<WeightedStrategy>());
 
-  for (int j = 0; j < 20; ++j) {
-    for (int i = 1; i < argc; ++i) {
+  for (int j = 0; j < stoi(argv[1]; ++j) {
+    for (int i = 2; i < argc; ++i) {
       string filepath = argv[i];
       string instance_name = get_base_filename(filepath);
+      
+      if (optimums.find(instance_name) == optimums.end()) {
+        // Optionnel : décommenter pour voir ce qui est ignoré
+        // cout << ">>> Skipping: " << instance_name << " (Not in benchmark list)" << endl;
+        continue; 
+      }
 
       unique_ptr<GraphHeavy> g_ptr;
       try {
@@ -89,6 +95,7 @@ int main(int argc, char *argv[]) {
         cerr << "Failed to load: " << filepath << endl;
         continue;
       }
+
 
       const Graph &g = *g_ptr;
       int opt_val = optimums.count(instance_name) ? optimums[instance_name] : -1;
