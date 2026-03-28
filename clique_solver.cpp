@@ -375,7 +375,8 @@ vector<vertex> triple_descent_n3(const Graph &g, vector<vertex> initial_clique, 
         improved = try_add_triple(g, clique, candidates, s) || // +3 sommets
                    try_add_pair(g, clique, candidates, s)   || // +2 sommets / 1 - 1 sommets
                    try_add_one(g, clique, candidates, s)    || // +1 sommet
-                   try_swap_1_for_2(g, clique, candidates, s); // Swap qui gagne +1 en taille
+                   try_swap_1_for_2(g, clique, candidates, s) ||
+                   try_swap_1_for_1(g, clique, candidates, s); // Swap qui gagne +1 en taille
     }
     return clique;
 }

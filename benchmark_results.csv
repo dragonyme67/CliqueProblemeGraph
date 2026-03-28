@@ -1,42 +1,26 @@
 Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,TotalWeight,Time_ms,Gap
-C125.9,125,6963,N1_Greedy,Last,34,24,2295,0,10
-C125.9,125,6963,N1_Greedy,Random,34,23,1251,0,11
-C125.9,125,6963,N1_Greedy,First,34,26,856,0,8
-C125.9,125,6963,N1_Greedy,WeightedResidual,34,25,2272,4,9
-C125.9,125,6963,N1_Greedy,Max residual degree,34,30,1723,10,4
-C125.9,125,6963,N2_Pair_Fallback,WeightedResidual,34,24,2295,3,10
-C125.9,125,6963,N2_Pair_Fallback,Last,34,33,2306,442,1
-C125.9,125,6963,N2_Pair_Fallback,First,34,31,1802,445,3
-C125.9,125,6963,N2_Pair_Fallback,Random,34,32,1952,447,2
-C125.9,125,6963,N2_Pair_Fallback,Max residual degree,34,30,1677,450,4
-C125.9,125,6963,N2_Pair_NoFallback,WeightedResidual,34,24,2295,4,10
-C125.9,125,6963,N2_Pair_NoFallback,Random,34,32,2223,443,2
-C125.9,125,6963,N2_Pair_NoFallback,Last,34,32,2301,444,2
-C125.9,125,6963,N2_Pair_NoFallback,First,34,30,1677,446,4
-C125.9,125,6963,N2_Pair_NoFallback,Max residual degree,34,30,1677,449,4
-C125.9,125,6963,N3_Triple,WeightedResidual,34,29,2413,192,5
-C125.9,125,6963,N3_Triple,Last,34,33,2236,13053,1
-C125.9,125,6963,N3_Triple,First,34,31,1856,13240,3
-C125.9,125,6963,N3_Triple,Max residual degree,34,31,1856,13250,3
-C125.9,125,6963,N3_Triple,Random,34,33,1879,13312,1
-C125.9,125,6963,Ruin_Recreate,First,34,26,856,0,8
-C125.9,125,6963,Ruin_Recreate,Last,34,24,2295,0,10
-C125.9,125,6963,Ruin_Recreate,Random,34,31,1507,0,3
-C125.9,125,6963,Ruin_Recreate,WeightedResidual,34,25,2272,8,9
-C125.9,125,6963,Ruin_Recreate,Max residual degree,34,32,1715,16,2
-C2000.5,2000,999836,N1_Greedy,First,16,11,868,0,5
-C2000.5,2000,999836,N1_Greedy,Last,16,10,1220,0,6
-C2000.5,2000,999836,N1_Greedy,Random,16,11,1468,0,5
-C2000.5,2000,999836,N1_Greedy,WeightedResidual,16,8,1515,391,8
-C2000.5,2000,999836,N1_Greedy,Max residual degree,16,12,1101,426,4
-C2000.5,2000,999836,N2_Pair_Fallback,WeightedResidual,16,10,1699,206,6
-C2000.5,2000,999836,N2_Pair_Fallback,First,16,13,1444,319000,3
-C2000.5,2000,999836,N2_Pair_Fallback,Last,16,13,1367,319293,3
-C2000.5,2000,999836,N2_Pair_Fallback,Max residual degree,16,12,1373,319459,4
-C2000.5,2000,999836,N2_Pair_Fallback,Random,16,13,1444,319906,3
-C2000.5,2000,999836,N2_Pair_NoFallback,WeightedResidual,16,10,1699,385,6
-C2000.5,2000,999836,N2_Pair_NoFallback,Last,16,12,1299,323330,4
-C2000.5,2000,999836,N2_Pair_NoFallback,Random,16,12,1373,324234,4
-C2000.5,2000,999836,N2_Pair_NoFallback,Max residual degree,16,12,1373,324767,4
-C2000.5,2000,999836,N2_Pair_NoFallback,First,16,12,1373,324973,4
-C2000.5,2000,999836,N3_Triple,WeightedResidual,16,11,1968,126337,5
+C125.9,125,6963,N1_Greedy,Last,34,24,2267,0,10
+C125.9,125,6963,N1_Greedy,First,34,25,873,0,9
+C125.9,125,6963,N1_Greedy,Random,34,26,1571,0,8
+C125.9,125,6963,N1_Greedy,WeightedResidual,34,24,2267,2,10
+C125.9,125,6963,N1_Greedy,Max residual degree,34,31,1812,6,3
+C125.9,125,6963,N2_Pair_Fallback,WeightedResidual,34,24,2267,2,10
+C125.9,125,6963,N2_Pair_Fallback,Last,34,32,2028,166,2
+C125.9,125,6963,N2_Pair_Fallback,First,34,32,1953,167,2
+C125.9,125,6963,N2_Pair_Fallback,Max residual degree,34,31,1903,228,3
+C125.9,125,6963,N2_Pair_Fallback,Random,34,32,1973,242,2
+C125.9,125,6963,N2_Pair_NoFallback,WeightedResidual,34,23,2242,2,11
+C125.9,125,6963,N2_Pair_NoFallback,First,34,31,1903,165,3
+C125.9,125,6963,N2_Pair_NoFallback,Last,34,31,1993,165,3
+C125.9,125,6963,N2_Pair_NoFallback,Max residual degree,34,31,1903,212,3
+C125.9,125,6963,N2_Pair_NoFallback,Random,34,31,1912,219,3
+C125.9,125,6963,N3_Triple,WeightedResidual,34,30,2323,60,4
+C125.9,125,6963,N3_Triple,Last,34,34,2169,4295,0
+C125.9,125,6963,N3_Triple,Max residual degree,34,33,1991,4583,1
+C125.9,125,6963,N3_Triple,First,34,33,1991,5610,1
+C125.9,125,6963,N3_Triple,Random,34,32,1991,5983,2
+C125.9,125,6963,Ruin_Recreate,First,34,26,934,0,8
+C125.9,125,6963,Ruin_Recreate,Random,34,28,1602,0,6
+C125.9,125,6963,Ruin_Recreate,Last,34,24,2267,0,10
+C125.9,125,6963,Ruin_Recreate,WeightedResidual,34,24,2267,5,10
+C125.9,125,6963,Ruin_Recreate,Max residual degree,34,33,1911,10,1

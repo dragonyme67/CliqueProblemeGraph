@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_ARCH_FLAGS} -O0 -g -ldl -lm -isystem dir")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_ARCH_FLAGS} -O3 -DNDEBUG -ldl -lm")
 
-add_executable(exemple
+add_executable(cliqueSolver
     main.cpp
     graph.cpp
     graphs/graphListAdj.cpp
