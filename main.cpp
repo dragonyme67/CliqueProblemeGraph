@@ -1,5 +1,6 @@
 #include "clique_solver.hpp"
 #include "graphs/graphHeavy.hpp"
+#include "weightedgraphDefs.hpp"
 #include "utils.hpp"
 #include <algorithm>
 #include <chrono>
@@ -57,13 +58,6 @@ string get_base_filename(const string &path) {
   return base;
 }
 
-// Structure pour encapsuler les résultats
-struct Result {
-  string instance, algo, strategy;
-  int nodes, edges, optimum, found, gap;
-  long long time_ms;
-};
-
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     cerr << "Usage: " << argv[0] << " <instance1.clq> ..." << endl;
@@ -72,7 +66,7 @@ int main(int argc, char *argv[]) {
 
   ofstream csv("benchmark_results.csv");
   csv << "Instance,GraphNodes,GraphEdges,Algo,Strategy,OptimumSize,CliqueFound,"
-         "Time_ms,Gap\n";
+         "TotalWeight,Time_ms,Gap\n";
   auto optimums = get_optimums();
 
   // On utilise des pointeurs bruts ici pour les stratégies car elles sont
@@ -82,6 +76,7 @@ int main(int argc, char *argv[]) {
   strategies.push_back(make_unique<LastStrategy>());
   strategies.push_back(make_unique<RandomStrategy>());
   strategies.push_back(make_unique<MaxResidualDegreeStrategy>());
+  strategies.push_back(make_unique<WeightedStrategy>());
 for(int j = 0; j < 3; ++j){
   for (int i = 1; i < argc; ++i) {
     string filepath = argv[i];
@@ -110,23 +105,29 @@ for(int j = 0; j < 3; ++j){
       auto time_ms =
           chrono::duration_cast<chrono::milliseconds>(end - start).count();
       int found_size = clique.size();
-
-      if (found_size > 0 && !is_clique(g, clique))
-        found_size = -2;
+      int total_weight = 0;
+      if (found_size > 0) {
+              if (!is_clique(g, clique)) {
+                  found_size = -2;
+              } else {
+                  for (vertex v : clique) total_weight += getVertexWeight(g, v);
+              }
+          }
       int gap = (opt_val > 0 && found_size > 0) ? opt_val - found_size : -1;
 
       // Section critique pour l'écriture
       {
-        lock_guard<mutex> lock_csv(csv_mutex);
-        csv << instance_name << "," << g.nb_vertices() << "," << nb_edges(g)
-            << "," << algo_name << "," << strat->toString() << "," << opt_val
-            << "," << found_size << "," << time_ms << "," << gap << "\n";
-        csv.flush();
-      }
+            lock_guard<mutex> lock_csv(csv_mutex);
+            // Écriture du poids dans le CSV
+            csv << instance_name << "," << g.nb_vertices() << "," << nb_edges(g)
+                << "," << algo_name << "," << strat->toString() << "," << opt_val
+                << "," << found_size << "," << total_weight << "," << time_ms << "," << gap << "\n";
+            csv.flush();
+          }
       {
         lock_guard<mutex> lock_cout(cout_mutex);
         cout << "  [DONE] " << algo_name << " (" << strat->toString() << ") -> "
-             << found_size << " in " << time_ms << "ms" << endl;
+             << found_size  << " | " << total_weight << " in " << time_ms << "ms" << endl;
       }
     };
 
