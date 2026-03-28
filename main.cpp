@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
   strategies.push_back(make_unique<LastStrategy>());
   strategies.push_back(make_unique<RandomStrategy>());
   strategies.push_back(make_unique<MaxResidualDegreeStrategy>());
-
+for(int j = 0; j < 3; ++j){
   for (int i = 1; i < argc; ++i) {
     string filepath = argv[i];
     string instance_name = get_base_filename(filepath);
@@ -98,7 +98,7 @@ int main(int argc, char *argv[]) {
 
     const Graph &g = *g_ptr;
     int opt_val = optimums.count(instance_name) ? optimums[instance_name] : -1;
-
+    if(opt_val >= 0){
     // Liste des tâches asynchrones
     vector<future<void>> futures;
 
@@ -165,7 +165,8 @@ int main(int argc, char *argv[]) {
     cout << "Finished instance: " << instance_name
          << "\n------------------------------------" << endl;
   }
-
+}
+}
   csv.close();
   return 0;
 }

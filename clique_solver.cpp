@@ -5,6 +5,7 @@
 #include <chrono>
 #include <ctime>
 #include <random>
+#include "weightedgraphDefs.cpp"
 
 using namespace std;
 
@@ -23,12 +24,30 @@ static void initialize_candidates(const Graph &g, const vector<vertex> &clique,
   }
 }
 
-vertex
-MaxResidualDegreeStrategy::select(const Graph &g,
-                                  const vector<vertex> &candidates) const {
+vertex MaxResidualDegreeStrategy::select(const Graph &g, const vector<vertex> &candidates) const {
   if (candidates.empty())
     return -1;
   return max_residual_degree_vertex(g, candidates).first;
+}
+
+vertex WeightedStrategy::select(const Graph &g, const vector<vertex> &candidates) const {
+    if (candidates.empty()) return -1;
+
+    vertex best_v = -1;
+    double best_score = -1.0;
+
+    for (vertex v : candidates) {
+        weight w = getVertexWeight(g, v);
+        // On utilise le degré résiduel pour normaliser le poids
+        // Plus le ratio est élevé, plus le sommet est "rentable"
+        double score = (double)w / (1.0 + residual_degree(g, candidates, v));
+        
+        if (score > best_score) {
+            best_score = score;
+            best_v = v;
+        }
+    }
+    return best_v;
 }
 
 // -------------------------------------------------------------------
@@ -123,6 +142,38 @@ static bool try_add_pair(const Graph &g, vector<vertex> &clique,
   return true;
 }
 
+static bool try_add_weighted_pair(const Graph &g, vector<vertex> &clique,
+                                  vector<vertex> &candidates) {
+    if (candidates.size() < 2) return false;
+
+    vertex best_u = -1, best_v = -1;
+    weight max_added_weight = 0;
+
+    for (size_t i = 0; i < candidates.size(); ++i) {
+        for (size_t j = i + 1; j < candidates.size(); ++j) {
+            if (!g.is_edge(candidates[i], candidates[j])) continue;
+
+            // On cherche à maximiser le gain de poids total
+            weight current_pair_weight = getVertexWeight(g, candidates[i]) + 
+                                         getVertexWeight(g, candidates[j]);
+            
+            if (current_pair_weight > max_added_weight) {
+                max_added_weight = current_pair_weight;
+                best_u = candidates[i];
+                best_v = candidates[j];
+            }
+        }
+    }
+
+    if (best_u == -1) return false;
+
+    clique.push_back(best_u);
+    clique.push_back(best_v);
+    g.intersect_neighbors(candidates, best_u);
+    g.intersect_neighbors(candidates, best_v);
+    return true;
+}
+
 // Étape 3 : tente d'ajouter un seul sommet (+1)
 static bool try_add_one(const Graph &g, vector<vertex> &clique,
                         vector<vertex> &candidates, const Strategy &s) {
@@ -183,7 +234,7 @@ vector<vertex> greedy_descent_n1(const Graph &g, vector<vertex> initial_clique,
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time)
                        .count();
-    if (elapsed >= 60)
+    if (elapsed >= 3600)
       return {};
 
     if (!try_add_one(g, clique, candidates, s))
@@ -204,7 +255,7 @@ vector<vertex> pair_descent_n2(const Graph &g, vector<vertex> initial_clique,
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time)
                        .count();
-    if (elapsed >= 60)
+    if (elapsed >= 3600)
       return {};
 
     vector<gint> res_degrees = compute_res_degrees(g, candidates);
@@ -236,7 +287,7 @@ vector<vertex> triple_descent_n3(const Graph &g, vector<vertex> initial_clique,
     auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(
                        std::chrono::steady_clock::now() - start_time)
                        .count();
-    if (elapsed >= 60)
+    if (elapsed >= 3600)
       return {};
 
     // Degrés résiduels calculés une seule fois par itération
@@ -264,7 +315,7 @@ vector<vertex> ruin_and_recreate(const Graph &g, vector<vertex> initial_clique,
   for (int i = 0; i < iterations; ++i) {
     if (std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::steady_clock::now() - start_time)
-            .count() >= 60)
+            .count() >= 3600)
       return vector<vertex>();
     if (current_clique.size() > 1) {
       shuffle(current_clique.begin(), current_clique.end(), engine);
