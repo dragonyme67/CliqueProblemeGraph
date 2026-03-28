@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/exemple.dir/link.d"
   "CMakeFiles/exemple.dir/clique_solver.cpp.o"
   "CMakeFiles/exemple.dir/clique_solver.cpp.o.d"
   "CMakeFiles/exemple.dir/graph.cpp.o"
@@ -14,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/exemple.dir/main.cpp.o.d"
   "CMakeFiles/exemple.dir/utils.cpp.o"
   "CMakeFiles/exemple.dir/utils.cpp.o.d"
+  "CMakeFiles/exemple.dir/weightedgraphDefs.cpp.o"
+  "CMakeFiles/exemple.dir/weightedgraphDefs.cpp.o.d"
   "exemple"
   "exemple.pdb"
 )

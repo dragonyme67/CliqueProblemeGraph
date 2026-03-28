@@ -12,6 +12,20 @@ public:
   virtual vertex select(const Graph &g,
                         const std::vector<vertex> &candidates) const = 0;
   virtual std::string toString() const = 0;
+  virtual std::vector<gint> get_ordered_indices(gint n) const {
+    std::vector<gint> indices(n);
+    for (gint i = 0; i < n; ++i) indices[i] = i;
+    return indices;
+  }
+  virtual bool is_best_improvement() const { return true; };
+};
+
+class WeightedStrategy : public Strategy {
+  public:
+  vertex select(const Graph &,
+                const std::vector<vertex> &candidates) const;
+  std::string toString() const override { return "WeightedResidual"; }
+  bool is_best_improvement() const override { return true; }
 };
 
 class FirstStrategy : public Strategy {
@@ -29,6 +43,7 @@ public:
                 const std::vector<vertex> &candidates) const override {
     return candidates.empty() ? -1 : candidates.back();
   }
+  virtual std::vector<gint> get_ordered_indices(gint n) const override;
   std::string toString() const override { return "Last"; }
 };
 
@@ -37,6 +52,7 @@ public:
   vertex select(const Graph &g,
                 const std::vector<vertex> &candidates) const override;
   std::string toString() const override { return "Max residual degree"; };
+  bool is_best_improvement() const override { return true; }
 };
 
 class RandomStrategy : public Strategy {
@@ -47,6 +63,7 @@ public:
       return -1;
     return candidates[rand() % candidates.size()];
   }
+  virtual std::vector<gint> get_ordered_indices(gint n) const override;
   std::string toString() const override { return "Random"; }
 };
 

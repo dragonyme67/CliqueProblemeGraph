@@ -161,7 +161,6 @@ for(int j = 0; j < 3; ++j){
     // suivant (mémoire)
     for (auto &f : futures)
       f.wait();
-
     cout << "Finished instance: " << instance_name
          << "\n------------------------------------" << endl;
   }

@@ -14,6 +14,7 @@ add_executable(exemple
     graphs/graphHeavy.cpp
     graphs/adjmat.cpp
     clique_solver.cpp
+    weightedgraphDefs.cpp
 
     utils.cpp
 )
